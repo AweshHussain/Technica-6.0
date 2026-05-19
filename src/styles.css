@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Orbitron:wght@700&display=swap');
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -159,6 +160,8 @@
   --font-serif-display: "Cormorant Garamond", "Cormorant", "Georgia", serif;
   --font-sans-display: "Inter", system-ui, sans-serif;
   --font-sanskrit: "Tiro Devanagari Sanskrit", "Noto Serif Devanagari", serif;
+  --font-technica: "Orbitron", sans-serif;
+--font-avinya: "Audiowide", cursive;
 }
 
 @layer base {
@@ -169,6 +172,13 @@
   }
   .font-display { font-family: var(--font-serif-display); }
   .font-sanskrit { font-family: var(--font-sanskrit); }
+  .font-technica {
+  font-family: var(--font-technica);
+}
+
+.font-avinya {
+  font-family: var(--font-avinya);
+}
 }
 
 /* Mandala watermark */

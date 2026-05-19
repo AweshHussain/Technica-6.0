@@ -120,7 +120,7 @@ export function SanskritEmblem({ className = "" }: { className?: string }) {
         {/* Ring 1 — outer dotted, very slow CW */}
         <motion.g
           animate={{ rotate: 360 }}
-          transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 240, repeat: Infinity, ease: "linear" }}
           style={{ transformOrigin: "250px 250px" }}
         >
           <circle cx={250} cy={250} r={215} fill="none" stroke={gold} strokeWidth={0.5} opacity={0.6} />
@@ -130,7 +130,7 @@ export function SanskritEmblem({ className = "" }: { className?: string }) {
         {/* Ring 2 — tick marks, slow CCW */}
         <motion.g
           animate={{ rotate: -360 }}
-          transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 180, repeat: Infinity, ease: "linear" }}
           style={{ transformOrigin: "250px 250px" }}
         >
           <circle cx={250} cy={250} r={195} fill="none" stroke={bronze} strokeWidth={0.6} opacity={0.5} />
@@ -141,7 +141,7 @@ export function SanskritEmblem({ className = "" }: { className?: string }) {
         {/* Ring 3 — ornamental triangles, medium CW */}
         <motion.g
           animate={{ rotate: 360 }}
-          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
           style={{ transformOrigin: "250px 250px" }}
         >
           <circle cx={250} cy={250} r={162} fill="none" stroke={gold} strokeWidth={0.8} />
@@ -151,7 +151,7 @@ export function SanskritEmblem({ className = "" }: { className?: string }) {
         {/* Ring 4 — lotus petals, medium-fast CCW */}
         <motion.g
           animate={{ rotate: -360 }}
-          transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
           style={{ transformOrigin: "250px 250px" }}
         >
           {petals(140, 95, 16)}
@@ -161,7 +161,7 @@ export function SanskritEmblem({ className = "" }: { className?: string }) {
         {/* Ring 5 — inner decorative dots, fast CW */}
         <motion.g
           animate={{ rotate: 360 }}
-          transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 56, repeat: Infinity, ease: "linear" }}
           style={{ transformOrigin: "250px 250px" }}
         >
           <circle cx={250} cy={250} r={92} fill="none" stroke={gold} strokeWidth={0.6} />
@@ -188,7 +188,7 @@ export function SanskritEmblem({ className = "" }: { className?: string }) {
         {/* TA monogram — subtle CCW drift */}
         <motion.g
           animate={{ rotate: -360 }}
-          transition={{ duration: 220, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 440, repeat: Infinity, ease: "linear" }}
           style={{ transformOrigin: "250px 250px" }}
         >
           <circle cx={250} cy={250} r={62} fill="var(--parchment)" stroke={gold} strokeWidth={1} />

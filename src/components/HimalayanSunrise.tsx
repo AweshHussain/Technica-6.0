@@ -206,23 +206,7 @@ function HimalayanPeaks({ mountY }: { mountY: MotionValue<number> }) {
           WebkitMaskComposite: "source-in",
         }}
       />
-      {/* 2.5D Volumetric Drifting Clouds extracted from the user's cloud image */}
-      <motion.img
-        src={cloudsImg}
-        alt=""
-        className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-        style={{
-          objectPosition: "50% 100%",
-          filter: "contrast(1.3) brightness(1.2)", // Enhance the clouds' natural glow
-          mixBlendMode: "screen", // Hide dark rocks, keep bright glowing fog
-          imageRendering: "-webkit-optimize-contrast" as any,
-          // Target only the lower valleys where the fog sits
-          maskImage: "radial-gradient(ellipse 120% 40% at 50% 85%, black 10%, transparent 70%)",
-          WebkitMaskImage: "radial-gradient(ellipse 120% 40% at 50% 85%, black 10%, transparent 70%)",
-        }}
-        animate={{ x: ["-1%", "1.5%", "-1%"], scale: [1.02, 1.04, 1.02] }}
-        transition={{ duration: 75, repeat: Infinity, ease: "easeInOut" }}
-      />
+
       {/* Warm golden rim-light on snow ridges */}
       <div className="absolute inset-0 mix-blend-color-dodge" style={{
         background: `radial-gradient(ellipse 45% 50% at 50.2% 36%, rgba(255,195,60,0.26) 0%, rgba(255,145,35,0.12) 40%, transparent 64%)`,
@@ -257,6 +241,133 @@ function CinematicBirds({ y }: { y: MotionValue<number> }) {
   );
 }
 
+/* ─── Cinematic Cloud System ──────────────────────────────────────── */
+function CinematicClouds({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
+  // Parallax motion based on scroll - very subtle
+  const bgCloudY = useTransform(scrollYProgress, [0, 1], [0, -4]);
+  const bgCloudXLeft = useTransform(scrollYProgress, [0, 1], ["0%", "-1.5%"]);
+  const bgCloudXRight = useTransform(scrollYProgress, [0, 1], ["0%", "1.5%"]);
+
+  const midCloudY = useTransform(scrollYProgress, [0, 1], [0, -10]);
+  const midCloudXLeft = useTransform(scrollYProgress, [0, 1], ["0%", "-3%"]);
+  const midCloudXRight = useTransform(scrollYProgress, [0, 1], ["0%", "3%"]);
+
+  const fgCloudY = useTransform(scrollYProgress, [0, 1], [0, -18]);
+  const fgCloudXLeft = useTransform(scrollYProgress, [0, 1], ["0%", "-5%"]);
+  const fgCloudXRight = useTransform(scrollYProgress, [0, 1], ["0%", "5%"]);
+
+  return (
+    <>
+      {/* Background Clouds (z-index 25) - Barely visible, warm, ultra-slow */}
+      <motion.div className="absolute inset-0 pointer-events-none" style={{ zIndex: 25, y: bgCloudY }}>
+        {/* Left background cloud */}
+        <motion.img
+          src={cloudsImg}
+          alt=""
+          className="absolute object-cover opacity-[0.12]"
+          style={{
+            top: "8%", left: "-15%", width: "130%", height: "50%",
+            maskImage: "radial-gradient(ellipse 55% 45% at 45% 55%, black 5%, transparent 65%)",
+            WebkitMaskImage: "radial-gradient(ellipse 55% 45% at 45% 55%, black 5%, transparent 65%)",
+            mixBlendMode: "screen",
+            filter: "sepia(0.5) hue-rotate(-15deg) brightness(1.2)",
+            x: bgCloudXLeft,
+          }}
+          animate={{ x: ["-0.5%", "0.5%", "-0.5%"], scale: [1, 1.01, 1], opacity: [0.10, 0.14, 0.10] }}
+          transition={{ duration: 160, repeat: Infinity, ease: "easeInOut" }}
+        />
+        {/* Right background cloud */}
+        <motion.img
+          src={cloudsImg}
+          alt=""
+          className="absolute object-cover opacity-[0.1]"
+          style={{
+            top: "10%", right: "-15%", width: "120%", height: "45%",
+            transform: "scaleX(-1)",
+            maskImage: "radial-gradient(ellipse 55% 45% at 45% 55%, black 10%, transparent 60%)",
+            WebkitMaskImage: "radial-gradient(ellipse 55% 45% at 45% 55%, black 10%, transparent 60%)",
+            mixBlendMode: "color-dodge",
+            filter: "sepia(0.6) hue-rotate(-20deg) brightness(1.1)",
+            x: bgCloudXRight,
+          }}
+          animate={{ x: ["0.5%", "-0.5%", "0.5%"], scale: [1, 1.015, 1], opacity: [0.08, 0.12, 0.08] }}
+          transition={{ duration: 190, repeat: Infinity, ease: "easeInOut", delay: 20 }}
+        />
+      </motion.div>
+
+      {/* Midground Clouds (z-index 32) - Soft sunlight rim, sweeps valleys */}
+      <motion.div className="absolute inset-0 pointer-events-none" style={{ zIndex: 32, y: midCloudY }}>
+        <motion.img
+          src={cloudsImg}
+          alt=""
+          className="absolute object-cover opacity-[0.22]"
+          style={{
+            bottom: "28%", left: "-8%", width: "75%", height: "55%",
+            maskImage: "radial-gradient(ellipse 75% 55% at 35% 65%, black 5%, transparent 75%)",
+            WebkitMaskImage: "radial-gradient(ellipse 75% 55% at 35% 65%, black 5%, transparent 75%)",
+            mixBlendMode: "lighten",
+            filter: "sepia(0.2) hue-rotate(-5deg) brightness(1.1)",
+            x: midCloudXLeft,
+          }}
+          animate={{ x: ["-0.5%", "1%", "-0.5%"], opacity: [0.18, 0.25, 0.18] }}
+          transition={{ duration: 130, repeat: Infinity, ease: "easeInOut", delay: 5 }}
+        />
+        <motion.img
+          src={cloudsImg}
+          alt=""
+          className="absolute object-cover opacity-[0.25]"
+          style={{
+            bottom: "22%", right: "-10%", width: "80%", height: "60%",
+            transform: "scaleX(-1)",
+            maskImage: "radial-gradient(ellipse 75% 55% at 65% 60%, black 10%, transparent 75%)",
+            WebkitMaskImage: "radial-gradient(ellipse 75% 55% at 65% 60%, black 10%, transparent 75%)",
+            mixBlendMode: "screen",
+            filter: "sepia(0.4) hue-rotate(-15deg) brightness(1.15)", // Warm rim glow
+            x: midCloudXRight,
+          }}
+          animate={{ x: ["0.5%", "-1%", "0.5%"], opacity: [0.20, 0.28, 0.20] }}
+          transition={{ duration: 145, repeat: Infinity, ease: "easeInOut", delay: 15 }}
+        />
+      </motion.div>
+
+      {/* Foreground Clouds (z-index 42) - Minimal, cool, framing edges */}
+      <motion.div className="absolute inset-0 pointer-events-none" style={{ zIndex: 42, y: fgCloudY }}>
+        <motion.img
+          src={cloudsImg}
+          alt=""
+          className="absolute object-cover opacity-[0.14]"
+          style={{
+            bottom: "-5%", left: "-12%", width: "55%", height: "40%",
+            maskImage: "radial-gradient(ellipse 65% 55% at 25% 75%, black 5%, transparent 75%)",
+            WebkitMaskImage: "radial-gradient(ellipse 65% 55% at 25% 75%, black 5%, transparent 75%)",
+            mixBlendMode: "normal",
+            filter: "brightness(0.95) saturate(0.85)", // Cooler, softer
+            x: fgCloudXLeft,
+          }}
+          animate={{ x: ["-1%", "1.5%", "-1%"], scale: [1, 1.02, 1], opacity: [0.10, 0.16, 0.10] }}
+          transition={{ duration: 100, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.img
+          src={cloudsImg}
+          alt=""
+          className="absolute object-cover opacity-[0.12]"
+          style={{
+            bottom: "-8%", right: "-12%", width: "60%", height: "45%",
+            transform: "scaleX(-1)",
+            maskImage: "radial-gradient(ellipse 65% 55% at 75% 80%, black 5%, transparent 75%)",
+            WebkitMaskImage: "radial-gradient(ellipse 65% 55% at 75% 80%, black 5%, transparent 75%)",
+            mixBlendMode: "normal",
+            filter: "brightness(0.9) saturate(0.8)", // Cooler, softer
+            x: fgCloudXRight,
+          }}
+          animate={{ x: ["1%", "-1.5%", "1%"], scale: [1, 1.015, 1], opacity: [0.08, 0.14, 0.08] }}
+          transition={{ duration: 115, repeat: Infinity, ease: "easeInOut", delay: 25 }}
+        />
+      </motion.div>
+    </>
+  );
+}
+
 /* ─── Valley Fog Bands (sandwiched above peaks) ───────────────────── */
 function ValleyFog({ y }: { y: MotionValue<number> }) {
   return (
@@ -270,8 +381,8 @@ function ValleyFog({ y }: { y: MotionValue<number> }) {
           left: "15%", bottom: "35%",
           width: "85%", height: 180,
           background: `radial-gradient(ellipse at 50% 50%,
-            rgba(255,248,235,0.38) 0%,
-            rgba(255,235,185,0.18) 45%,
+            rgba(255,248,235,0.12) 0%,
+            rgba(255,235,185,0.06) 45%,
             transparent 78%)`,
           filter: "blur(65px)",
         }}
@@ -285,7 +396,7 @@ function ValleyFog({ y }: { y: MotionValue<number> }) {
           right: "-4%", bottom: "44%",
           width: 820, height: 270,
           background: `radial-gradient(ellipse at 36% 50%,
-            rgba(255,242,175,0.45) 0%, rgba(255,228,140,0.24) 40%, transparent 72%)`,
+            rgba(255,242,175,0.15) 0%, rgba(255,228,140,0.08) 40%, transparent 72%)`,
           filter: "blur(60px)", mixBlendMode: "screen" as const,
         }}
         animate={{ x: ["0%", "-4.5%", "0%"] }}
@@ -298,7 +409,7 @@ function ValleyFog({ y }: { y: MotionValue<number> }) {
           left: "8%", bottom: "20%",
           width: "132%", height: 300,
           background: `radial-gradient(ellipse at 50% 52%,
-            rgba(255,252,248,0.55) 0%, rgba(250,246,238,0.35) 44%, transparent 80%)`,
+            rgba(255,252,248,0.20) 0%, rgba(250,246,238,0.10) 44%, transparent 80%)`,
           filter: "blur(52px)", mixBlendMode: "lighten" as const,
         }}
         animate={{ x: ["0%", "-5%", "0%"] }}
@@ -310,7 +421,7 @@ function ValleyFog({ y }: { y: MotionValue<number> }) {
         style={{
           left: "-6%", bottom: "9%",
           width: "118%", height: 220,
-          background: "rgba(252,249,244,0.72)",
+          background: "rgba(252,249,244,0.25)",
           filter: "blur(48px)",
         }}
         animate={{ x: ["-1%", "-8%", "-1%"] }}
@@ -319,7 +430,7 @@ function ValleyFog({ y }: { y: MotionValue<number> }) {
 
       {/* Page-matching base gradient - reduced drastically so it doesn't hide bottom mountains */}
       <div className="absolute inset-x-0 bottom-0 h-[10%]" style={{
-        background: "linear-gradient(to top, #F4EEE0 0%, rgba(244,238,224,0.6) 50%, transparent 100%)",
+        background: "linear-gradient(to top, #F4EEE0 0%, rgba(244,238,224,0.3) 50%, transparent 100%)",
       }} />
     </motion.div>
   );
@@ -414,6 +525,7 @@ export function HimalayanSunrise({ className = "" }: { className?: string }) {
       <SacredGeometry opacity={geomOp} y={geomY} />
       <DistantRidge />
       <HimalayanPeaks mountY={mountY} />
+      <CinematicClouds scrollYProgress={scrollYProgress} />
       <CinematicBirds y={birdsY} />
       <ValleyFog y={fogY} />
       <AmbientParticles />
